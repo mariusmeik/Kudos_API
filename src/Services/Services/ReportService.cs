@@ -45,10 +45,10 @@ namespace Services.Services
                                     .First()
                                     .Select(g => g.GiverId).ToList()[0];
 
-            int bestReceiverId = kudos.GroupBy(q => q.GiverId)
+            int bestReceiverId = kudos.GroupBy(q => q.ReceiverId)
                                     .OrderByDescending(gp => gp.Count())
                                     .First()
-                                    .Select(g => g.GiverId).ToList()[0];
+                                    .Select(g => g.ReceiverId).ToList()[0];
 
             report.BestGiver= await _employeRepository.GetById(bestGiverId);
             report.BestRecever = await _employeRepository.GetById(bestReceiverId);
