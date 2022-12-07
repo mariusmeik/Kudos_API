@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: kudos_api
+      PGUSER: "root"
+    ports:
+      - "8001:5432"
+    networks:
+      - network     
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d kudos_api" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  liquibase:
+    build: ./db/liquibase/
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: liquibase --url=jdbc:postgresql://postgres:5432/kudos_api --username=root --password=root update
+    networks:
+      - network  
+networks:
+  network:
+    driver: bridge
+    name: kudos_api_network 

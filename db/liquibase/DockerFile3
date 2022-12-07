@@ -1,0 +1,8 @@
+FROM postgres
+ENV POSTGRES_PASSWORD root
+ENV POSTGRES_DB testDB
+ENV POSTGRES_USER root
+
+COPY ./liquibase/changelog-001-EmployeTable.sql ./docker-entrypoint-initdb.d/
+COPY ./liquibase/changelogs/changelog-002-ReasonTable.sql ./docker-entrypoint-initdb.d/
+COPY ./liquibase/changelogs/changelog-003-KudosTable.sql ./docker-entrypoint-initdb.d/
